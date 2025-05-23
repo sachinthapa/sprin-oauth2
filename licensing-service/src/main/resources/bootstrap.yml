@@ -1,0 +1,142 @@
+app:
+  jwks: classpath:jwks.json
+
+server:
+  port: 8083
+  use-forward-headers: true
+  forward-headers-strategy: framework
+
+spring:
+    session:
+      timeout: 2m
+    application:
+     name: licensing-service 
+    profiles:
+      active: dev
+    cloud:
+      config:
+        uri: http://localhost:8071/
+        fail-fast: false
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            #automatically appends /.well-known/openid-configuration to the issuer-uri
+            issuer-uri: http://localhost:8080/realms/sachin
+            jwk-set-uri: http://localhost:8080/realms/sachin/protocol/openid-connect/certs
+        client:
+          registration:
+            keycloak:
+              client-id: sachin-resource-grant
+              client-secret: wnaT3yhJ1XmuguaDEJ6MYX6mh1Q7dDxG
+              authorization-grant-type: client_credentials
+              scope:
+                - openid
+          provider:
+            keycloak:
+              issuer-uri: http://localhost:8080/realms/sachin
+              token-uri: http://localhost:8080/realms/sachin/protocol/openid-connect/token
+              user-name-attribute: preferred_username
+
+logging:
+  level:
+    com.netflix: WARN
+    org:
+      springframework:
+        web: WARN
+        security:
+          oauth2: DEBUG
+    com.optimagrowth: DEBUG
+    io.github.resilience4j: DEBUG
+
+#beans  , Displays a complete list of all the Spring beans in your application.
+#caches , Exposes available caches.
+#conditions , Shows the conditions that were evaluated on configuration and auto-configuration classes and the reasons why they did or did not match.
+#configprops  , Displays a collated list of all\u00A0@ConfigurationProperties.
+#env  , Exposes properties from Spring\u2019s\u00A0ConfigurableEnvironment.
+#flyway , Shows any Flyway database migrations that have been applied.
+#health , Shows application health information.
+#httptrace  , Displays HTTP trace information (by default, the last 100 HTTP request-response exchanges).
+#info , Displays arbitrary application info.
+#integrationgraph , Shows the Spring Integration graph.
+#loggers  , Shows and modifies the configuration of loggers in the application.
+#liquibase  , Shows any Liquibase database migrations that have been applied.
+#metrics  , Shows \u2018metrics\u2019 information for the current application.
+#mappings , Displays a collated list of all\u00A0@RequestMapping\u00A0paths.
+#scheduledtasks , Displays the scheduled tasks in your application.
+#sessions , Allows retrieval and deletion of user sessions from a Spring Session-backed session store. Not available when using Spring Session\u2019s support for reactive web applications.
+#shutdown , Lets the application be gracefully shutdown.
+#threaddump , Performs a thread dump.
+
+#management.endpoints.web.base-path=/
+management.endpoints.enabled-by-default: false
+management.endpoint.health:
+ enabled: true
+ show-details: always
+
+management.health.circuitbreakers.enabled: true
+management.health.ratelimiters.enabled: true
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slowCallDurationThreshold: 3s
+      failureRateThreshold: 50
+      slowCallRateThreshold: 50
+  instances:
+    licenseService:
+      baseConfig: default
+      registerHealthIndicator: true
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 5
+      eventConsumerBufferSize: 10
+      minimumNumberOfCalls: 3
+      waitDurationInOpenState: 5s
+      permittedNumberOfCallsInHalfOpenState: 5
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+        - java.util.concurrent.TimeoutException
+        - org.springframework.web.client.ResourceAccessException
+    organizationService:
+      baseConfig: default
+      slidingWindowType: TIME_BASED
+      slidingWindowSize: 3
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 20s
+
+resilience4j:
+  retry:
+    instances:
+      retryLicenseService:
+        registerHealthIndicator: true
+        maxAttempts: 3
+        waitDuration: 2s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 1
+        retryExceptions:
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+  ratelimiter:
+    configs:
+      default:
+        registerHealthIndicator: true
+    instances:
+      licenseService:
+        baseConfig: default
+        limitForPeriod: 3
+        limitRefreshPeriod: 1s
+        timeoutDuration: 2s
+  bulkhead:
+    instances:
+      bulkheadLicenseService:
+        maxWaitDuration: 20ms
+        maxConcurrentCalls: 5
+  thread-pool-bulkhead:
+    instances:
+      threadPoolBulkheadLicenseService:
+        coreThreadPoolSize: 2
+        maxThreadPoolSize: 3
+        queueCapacity: 1
+        writableStackTraceEnabled: true

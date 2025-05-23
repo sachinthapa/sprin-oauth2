@@ -1,0 +1,93 @@
+example:
+  property: I AM DEV
+spring:
+  cloud:
+    loadbalancer.ribbon.enabled: false
+    gateway:
+      mvc:
+#        default-filters:
+#          - TokenRelay
+        discovery:
+          locator:
+            enabled: true
+        lowerCaseServiceId: true
+        routes:
+          - id: organization-service
+            predicates:
+              - Path=/organization/**
+            filters:
+              - RewritePath=/organization/(?<path>.*), /$\{path}
+              - TokenRelay=
+              - RemoveRequestHeader=Cookie
+            uri: lb://organization-service
+          - id: licensing-service
+            predicates:
+              - Path=/license/**
+            filters:
+              - RewritePath=/license/(?<path>.*), /$\{path}
+              - TokenRelay=
+            uri: lb://licensing-service
+
+management:
+  endpoint:
+    gateway:
+      enabled: true # default value
+      lowerCaseServiceId: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true
+
+eureka:
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
+  instance:
+    preferIpAddress: true
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slowCallDurationThreshold: 3s
+      failureRateThreshold: 50
+      slowCallRateThreshold: 50
+  instances:
+    licenseService:
+      baseConfig: default
+      registerHealthIndicator: true
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 5
+      eventConsumerBufferSize: 10
+      minimumNumberOfCalls: 3
+      waitDurationInOpenState: 5s
+      permittedNumberOfCallsInHalfOpenState: 5
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+        - java.util.concurrent.TimeoutException
+        - org.springframework.web.client.ResourceAccessException
+    organizationService:
+      baseConfig: default
+      slidingWindowType: TIME_BASED
+      slidingWindowSize: 3
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 20s
+
+logging:
+  level:
+    com.netflix: WARN
+    org:
+      springframework:
+        web: WARN
+        security:
+          oauth2: DEBUG
+    com.optimagrowth: DEBUG
+    io.github.resilience4j: DEBUG

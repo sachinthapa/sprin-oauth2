@@ -1,0 +1,50 @@
+#server:
+#  port: 8072
+#
+#eureka:
+#  client:
+#    fetchRegistry: true
+#    registerWithEureka: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8070/eureka/
+#  instance:
+#    preferIpAddress: true
+#
+#spring:
+#  cloud:
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
+#    gateway:
+#      mvc:
+#        discovery.locator:
+#          enabled: true
+#          lowerCaseServiceId: true
+#        http-client:
+#          type: autodetect
+#          connect-timeout: 30s
+#          read-timeout: 30s
+#        routes:
+#          - id: organization-service
+#            predicates:
+#              - Path=/organization/**
+#            filters:
+#              - RewritePath=/organization/(?<path>.*), /$\{path}
+#            uri: lb://organization-service
+#          - id: licensing-service
+#            predicates:
+#              - Path=/license/**
+#            filters:
+#              - RewritePath=/license/(?<path>.*), /$\{path}
+#            uri: lb://licensing-service
+#
+#
+##management:
+##  endpoint:
+##    gateway:
+##      enabled: true # default value
+##      lowerCaseServiceId: true
+##  endpoints:
+##    web:
+##      exposure:
+##        include: "*"

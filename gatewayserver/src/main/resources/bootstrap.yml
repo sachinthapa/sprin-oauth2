@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    config:
+      uri: http://localhost:8071
+    discovery:
+      enabled: true
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.optimagrowth: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+

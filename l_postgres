@@ -1,0 +1,115 @@
+2025-04-11 10:28:10.662 +0545 [9689] LOG:  starting PostgreSQL 16.8 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250207, 64-bit
+2025-04-11 10:28:10.663 +0545 [9689] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-04-11 10:28:10.664 +0545 [9689] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-04-11 10:28:10.671 +0545 [9692] LOG:  database system was shut down at 2025-04-10 18:41:21 +0545
+2025-04-11 10:28:10.678 +0545 [9689] LOG:  database system is ready to accept connections
+2025-04-11 10:33:10.771 +0545 [9690] LOG:  checkpoint starting: time
+2025-04-11 10:33:10.783 +0545 [9690] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.002 s, total=0.013 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A2D790, redo lsn=0/1A2D758
+2025-04-11 12:32:38.753 +0545 [9689] LOG:  received smart shutdown request
+2025-04-11 12:32:38.755 +0545 [9689] LOG:  background worker "logical replication launcher" (PID 9695) exited with exit code 1
+2025-04-11 12:32:38.755 +0545 [9690] LOG:  shutting down
+2025-04-11 12:32:38.758 +0545 [9690] LOG:  checkpoint starting: shutdown immediate
+2025-04-11 12:32:38.769 +0545 [9690] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.014 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/1A2D840, redo lsn=0/1A2D840
+2025-04-11 12:32:38.774 +0545 [9689] LOG:  database system is shut down
+2025-04-15 16:05:52.337 +0545 [53035] FATAL:  lock file "postmaster.pid" already exists
+2025-04-15 16:05:52.337 +0545 [53035] HINT:  Is another postmaster (PID 23395) running in data directory "/home/sachin/Programs/postgres/data"?
+2025-04-16 15:02:33.231 +0545 [23046] LOG:  starting PostgreSQL 16.8 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250207, 64-bit
+2025-04-16 15:02:33.231 +0545 [23046] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-04-16 15:02:33.233 +0545 [23046] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-04-16 15:02:33.239 +0545 [23049] LOG:  database system was shut down at 2025-04-15 18:35:04 +0545
+2025-04-16 15:02:33.245 +0545 [23046] LOG:  database system is ready to accept connections
+2025-04-16 15:07:33.340 +0545 [23047] LOG:  checkpoint starting: time
+2025-04-16 15:07:33.358 +0545 [23047] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.002 s, total=0.019 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A2DDB8, redo lsn=0/1A2DD80
+2025-04-16 15:56:54.054 +0545 [23046] LOG:  received smart shutdown request
+2025-04-16 15:56:54.057 +0545 [23046] LOG:  background worker "logical replication launcher" (PID 23052) exited with exit code 1
+2025-04-16 15:56:54.057 +0545 [23047] LOG:  shutting down
+2025-04-16 15:56:54.060 +0545 [23047] LOG:  checkpoint starting: shutdown immediate
+2025-04-16 15:56:54.068 +0545 [23047] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.011 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/1A2DE68, redo lsn=0/1A2DE68
+2025-04-16 15:56:54.073 +0545 [23046] LOG:  database system is shut down
+2025-04-28 10:40:28.782 +0545 [8258] LOG:  starting PostgreSQL 16.8 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250207, 64-bit
+2025-04-28 10:40:28.783 +0545 [8258] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-04-28 10:40:28.784 +0545 [8258] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-04-28 10:40:28.790 +0545 [8261] LOG:  database system was shut down at 2025-04-16 15:56:54 +0545
+2025-04-28 10:40:28.796 +0545 [8258] LOG:  database system is ready to accept connections
+2025-04-28 10:45:28.876 +0545 [8259] LOG:  checkpoint starting: time
+2025-04-28 10:45:28.896 +0545 [8259] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.002 s, total=0.020 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A2DF50, redo lsn=0/1A2DF18
+2025-04-28 18:30:13.791 +0545 [8258] LOG:  received smart shutdown request
+2025-04-28 18:30:13.794 +0545 [8258] LOG:  background worker "logical replication launcher" (PID 8264) exited with exit code 1
+2025-04-28 18:30:13.794 +0545 [8259] LOG:  shutting down
+2025-04-28 18:30:13.796 +0545 [8259] LOG:  checkpoint starting: shutdown immediate
+2025-04-28 18:30:13.807 +0545 [8259] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.013 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E018, redo lsn=0/1A2E018
+2025-04-28 18:30:13.811 +0545 [8258] LOG:  database system is shut down
+2025-04-29 10:16:17.610 +0545 [10179] LOG:  starting PostgreSQL 16.8 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250207, 64-bit
+2025-04-29 10:16:17.610 +0545 [10179] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-04-29 10:16:17.612 +0545 [10179] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-04-29 10:16:17.617 +0545 [10182] LOG:  database system was shut down at 2025-04-28 18:30:13 +0545
+2025-04-29 10:16:17.623 +0545 [10179] LOG:  database system is ready to accept connections
+2025-04-29 10:21:17.654 +0545 [10180] LOG:  checkpoint starting: time
+2025-04-29 10:21:17.689 +0545 [10180] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.002 s, total=0.035 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E100, redo lsn=0/1A2E0C8
+2025-04-29 17:16:56.747 +0545 [10179] LOG:  received smart shutdown request
+2025-04-29 17:16:56.751 +0545 [10179] LOG:  background worker "logical replication launcher" (PID 10185) exited with exit code 1
+2025-04-29 17:16:56.751 +0545 [10180] LOG:  shutting down
+2025-04-29 17:16:56.761 +0545 [10180] LOG:  checkpoint starting: shutdown immediate
+2025-04-29 17:16:56.772 +0545 [10180] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.022 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E1B0, redo lsn=0/1A2E1B0
+2025-04-29 17:16:56.777 +0545 [10179] LOG:  database system is shut down
+2025-04-30 10:12:54.904 +0545 [18079] LOG:  starting PostgreSQL 16.8 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250207, 64-bit
+2025-04-30 10:12:54.904 +0545 [18079] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-04-30 10:12:54.905 +0545 [18079] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-04-30 10:12:54.911 +0545 [18082] LOG:  database system was shut down at 2025-04-29 17:16:56 +0545
+2025-04-30 10:12:54.928 +0545 [18079] LOG:  database system is ready to accept connections
+2025-04-30 10:17:55.011 +0545 [18080] LOG:  checkpoint starting: time
+2025-04-30 10:17:55.031 +0545 [18080] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.002 s, total=0.020 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E298, redo lsn=0/1A2E260
+2025-04-30 18:35:34.092 +0545 [18079] LOG:  received smart shutdown request
+2025-04-30 18:35:34.095 +0545 [18079] LOG:  background worker "logical replication launcher" (PID 18085) exited with exit code 1
+2025-04-30 18:35:34.095 +0545 [18080] LOG:  shutting down
+2025-04-30 18:35:34.100 +0545 [18080] LOG:  checkpoint starting: shutdown immediate
+2025-04-30 18:35:34.113 +0545 [18080] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.019 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E348, redo lsn=0/1A2E348
+2025-04-30 18:35:34.118 +0545 [18079] LOG:  database system is shut down
+2025-05-15 16:54:54.435 +0545 [16280] LOG:  starting PostgreSQL 16.8 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250207, 64-bit
+2025-05-15 16:54:54.436 +0545 [16280] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-05-15 16:54:54.437 +0545 [16280] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-05-15 16:54:54.449 +0545 [16283] LOG:  database system was shut down at 2025-05-01 18:25:43 +0545
+2025-05-15 16:54:54.455 +0545 [16280] LOG:  database system is ready to accept connections
+2025-05-15 16:59:54.547 +0545 [16281] LOG:  checkpoint starting: time
+2025-05-15 16:59:54.566 +0545 [16281] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.001 s, total=0.020 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E5C8, redo lsn=0/1A2E590
+2025-05-15 18:34:19.732 +0545 [16280] LOG:  received smart shutdown request
+2025-05-15 18:34:19.735 +0545 [16280] LOG:  background worker "logical replication launcher" (PID 16286) exited with exit code 1
+2025-05-15 18:34:19.735 +0545 [16281] LOG:  shutting down
+2025-05-15 18:34:19.738 +0545 [16281] LOG:  checkpoint starting: shutdown immediate
+2025-05-15 18:34:19.748 +0545 [16281] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.013 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E678, redo lsn=0/1A2E678
+2025-05-15 18:34:19.755 +0545 [16280] LOG:  database system is shut down
+2025-05-21 11:47:57.061 +0545 [9783] LOG:  starting PostgreSQL 16.8 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250207, 64-bit
+2025-05-21 11:47:57.062 +0545 [9783] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-05-21 11:47:57.063 +0545 [9783] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-05-21 11:47:57.069 +0545 [9786] LOG:  database system was shut down at 2025-05-15 18:34:19 +0545
+2025-05-21 11:47:57.075 +0545 [9783] LOG:  database system is ready to accept connections
+2025-05-21 11:52:57.168 +0545 [9784] LOG:  checkpoint starting: time
+2025-05-21 11:52:57.194 +0545 [9784] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.002 s, total=0.027 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E760, redo lsn=0/1A2E728
+2025-05-21 18:34:41.833 +0545 [9783] LOG:  received smart shutdown request
+2025-05-21 18:34:41.835 +0545 [9783] LOG:  background worker "logical replication launcher" (PID 9789) exited with exit code 1
+2025-05-21 18:34:41.835 +0545 [9784] LOG:  shutting down
+2025-05-21 18:34:41.851 +0545 [9784] LOG:  checkpoint starting: shutdown immediate
+2025-05-21 18:34:41.881 +0545 [9784] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.046 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E810, redo lsn=0/1A2E810
+2025-05-21 18:34:41.888 +0545 [9783] LOG:  database system is shut down
+2025-05-22 10:18:08.727 +0545 [6721] LOG:  starting PostgreSQL 16.8 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250207, 64-bit
+2025-05-22 10:18:08.728 +0545 [6721] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-05-22 10:18:08.729 +0545 [6721] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-05-22 10:18:08.734 +0545 [6724] LOG:  database system was shut down at 2025-05-21 18:34:41 +0545
+2025-05-22 10:18:08.740 +0545 [6721] LOG:  database system is ready to accept connections
+2025-05-22 10:23:08.833 +0545 [6722] LOG:  checkpoint starting: time
+2025-05-22 10:23:08.859 +0545 [6722] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.001 s, total=0.027 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E8F8, redo lsn=0/1A2E8C0
+2025-05-22 17:44:44.956 +0545 [198838] FATAL:  database "sachin" does not exist
+2025-05-22 17:44:50.375 +0545 [198876] FATAL:  database "sachin" does not exist
+2025-05-22 18:37:44.975 +0545 [6721] LOG:  received smart shutdown request
+2025-05-22 18:37:44.977 +0545 [6721] LOG:  background worker "logical replication launcher" (PID 6727) exited with exit code 1
+2025-05-22 18:37:44.977 +0545 [6722] LOG:  shutting down
+2025-05-22 18:37:44.980 +0545 [6722] LOG:  checkpoint starting: shutdown immediate
+2025-05-22 18:37:44.990 +0545 [6722] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.013 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/1A2E9A8, redo lsn=0/1A2E9A8
+2025-05-22 18:37:44.994 +0545 [6721] LOG:  database system is shut down
+2025-05-23 10:38:26.334 +0545 [5220] LOG:  starting PostgreSQL 16.8 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250207, 64-bit
+2025-05-23 10:38:26.335 +0545 [5220] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-05-23 10:38:26.336 +0545 [5220] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-05-23 10:38:26.343 +0545 [5223] LOG:  database system was shut down at 2025-05-22 18:37:44 +0545
+2025-05-23 10:38:26.350 +0545 [5220] LOG:  database system is ready to accept connections
+2025-05-23 10:43:26.441 +0545 [5221] LOG:  checkpoint starting: time
+2025-05-23 10:43:26.459 +0545 [5221] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.002 s, total=0.018 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A2EA90, redo lsn=0/1A2EA58
