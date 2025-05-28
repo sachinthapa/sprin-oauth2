@@ -2,9 +2,11 @@ app:
   jwks: classpath:jwks.json
 
 server:
+  servlet:
+    context-path: /client
   port: 8081
   use-forward-headers: true
-  forward-headers-strategy: framework
+  forward-headers-strategy: native
 
 spring:
     application:
@@ -26,7 +28,7 @@ spring:
               scope: openid
           provider:
             keycloak:
-              issuer-uri: http://localhost:8080/realms/sachin
+              issuer-uri: http://vegefoods:8090/auth/realms/sachin
 #              use the preferred_username as the principal's name in your Spring Security context,
 #              object represents the currently authenticated user
               user-name-attribute: preferred_username

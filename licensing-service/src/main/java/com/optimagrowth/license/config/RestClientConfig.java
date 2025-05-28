@@ -62,15 +62,8 @@ public class RestClientConfig {
             ClientRegistrationRepository clientRegistrationRepository,
             OAuth2AuthorizedClientRepository auth2AuthorizedClientRepository, JWKSet jwks) {
 
-        // OAuth2AccessTokenResponseClient<OAuth2RefreshTokenGrantRequest>
-        // accessTokenResponseClient =
-        // refreshTokenTokenResponseClient(
-        // jwks);
         var provider = OAuth2AuthorizedClientProviderBuilder.builder()
                 .clientCredentials()
-                // .refreshToken(refreshTokenGrantBuilder -> {
-                // refreshTokenGrantBuilder.accessTokenResponseClient(accessTokenResponseClient);
-                // })
                 .build();
 
         var cm = new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository,

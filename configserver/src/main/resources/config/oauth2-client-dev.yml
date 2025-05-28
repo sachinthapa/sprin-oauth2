@@ -2,16 +2,20 @@ example:
   property: I AM DEV
 spring:
   cloud:
-    loadbalancer.ribbon.enabled: false
+    loadbalancer:
+      ribbon:
+        enabled: false
     gateway:
       mvc:
-#        default-filters:
-#          - TokenRelay
         discovery:
           locator:
             enabled: true
         lowerCaseServiceId: true
         routes:
+#          - id: react
+#            uri: http://127.0.0.1:5173
+#            predicates:
+#              - Path=/**
           - id: organization-service
             predicates:
               - Path=/organization/**

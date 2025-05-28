@@ -1,7 +1,7 @@
 import { AuthenticatedUser } from "@/models/AuthenticatedUser";
 
 const getInfo = async (): Promise<AuthenticatedUser> => {
-  const response = await fetch('/authentication/user', {
+  const response = await fetch('/client/account', {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

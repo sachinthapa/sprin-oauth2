@@ -12,12 +12,17 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HTTP_PORT: 8080
-      KC_HTTP_HOST: 0.0.0.0
-      KC_HOSTNAME: http://localhost:8080
-      KC_HOSTNAME_ADMIN: http://localhost:8080
-      KC_HOSTNAME_STRICT: true
-      KC_HTTP_RELATIVE_PATH: /
+      KC_PROXY: edge
+      KC_PROXY_HEADERS: forwarded
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+#      KC_HTTP_PORT: 8080
+#      KC_HTTP_HOST: 0.0.0.0
+#      KC_HOSTNAME: http://localhost:8080
+#      KC_HOSTNAME_ADMIN: http://localhost:8080
+#      KC_HOSTNAME_STRICT: true
+      KC_HTTP_RELATIVE_PATH: /auth
+      PROXY_ADDRESS_FORWARDING: "true"
       KC_HTTP_ENABLED: true
       KC_HEALTH_ENABLED: true
       KC_METRICS_ENABLED: true

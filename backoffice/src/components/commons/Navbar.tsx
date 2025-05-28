@@ -126,7 +126,7 @@ export default function Navbar() {
             {username === "" ? (
               <li className="nav-item">
                 <a
-                  href="http://localhost:8080/oauth2/authorization/api-client"
+                  href="/signin"
                   className="nav-link"
                 >
                   Sign in

@@ -11,6 +11,7 @@ import com.nimbusds.jose.jwk.source.RemoteJWKSet;
 import com.nimbusds.jose.proc.JWSVerificationKeySelector;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
@@ -38,6 +39,8 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -58,6 +61,9 @@ import java.util.function.Predicate;
 @Configuration
 public class WebSecurityConfiguration {
 
+	@Autowired
+	private CrossDomainAuthenticationSuccessHandler crossDomainAuthenticationSuccessHandler;
+
 	/**
 	 * Gets the JWKS for encryption/decryption and signing/verification.
 	 * @param resourceLoader the resource loader
@@ -72,6 +78,26 @@ public class WebSecurityConfiguration {
 		try (InputStream inputStream = resourceLoader.getResource(applicationProperties.getJwks()).getInputStream()) {
 			return JWKSet.load(inputStream);
 		}
+	}
+
+	/**
+	 * Referer header is set: When the user is redirected to the login page/provider,
+	 * their browser typically sends a Referer header in the subsequent request to the
+	 * login page. This Referer header contains the original URL they were trying to
+	 * access (e.g., /dashboard). After Spring Security processes the OAuth2 callback and
+	 * successfully authenticates the user, this successHandler is invoked. Because
+	 * setUseReferer(true) is set, it checks the Referer header of the original request
+	 * that led to the authentication process. Referer header is present and valid, the
+	 * user will be redirected back to the URL they were originally trying to access
+	 * (e.g., /dashboard).
+	 * @return
+	 */
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+		SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+		handler.setUseReferer(false);
+		handler.setDefaultTargetUrl("/token"); // Fallback URL
+		return handler;
 	}
 
 	// @Autowired
@@ -116,7 +142,9 @@ public class WebSecurityConfiguration {
 						System.out.println("securityFilterChain -> oidcUserService");
 						userInfoEndpoint.oidcUserService(oidcUserService());
 					}
-				}))
+				})
+				// .successHandler(successHandler()))
+				.successHandler(crossDomainAuthenticationSuccessHandler))
 			// .addFilterAfter(refreshTokenValidationFilter,
 			// OAuth2LoginAuthenticationFilter.class)
 			.oidcLogout(oidcLogout -> oidcLogout.backChannel((Customizer.withDefaults())))
