@@ -1,7 +1,7 @@
 services:
   keycloak:
     container_name: sachin-keycloak.openid-provider
-    image: quay.io/keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:26.0
     command:
     - start-dev
 #    - --import-realm
@@ -34,6 +34,36 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+#  opendj:
+#    image: openidentityplatform/opendj:4.9.4
+#    container_name: opendj
+#    ports:
+#      - 11389:1389
+#      - 4445:4444
+#    environment:
+#      - ROOT_USER_DN=cn=Directory Manager
+#      - ROOT_PASSWORD=secret
+#      - BASE_DN=dc=spring6recipes,dc=com
+#    restart: always
+  openldap:
+    image: bitnami/openldap:2.6.10
+    container_name: openldap
+#    entrypoint: [ "/opt/bitnami/openldap/01-enable-dynlist.sh" ]
+    ports:
+      - '11389:1389'
+      - '11636:1636'
+    environment:
+      - LDAP_ROOT=dc=spring6recipes,dc=com
+      - LDAP_ADMIN_USERNAME=admin
+      - LDAP_ADMIN_PASSWORD=secret
+      - LDAP_CUSTOM_LDIF_DIR=/opt/bitnami/openldap/custom_ldif
+      - LDAP_CUSTOM_SCHEMA_DIR=/opt/bitnami/openldap/custom_ldif
+    # full admin DN that the OpenLDAP server will create and recognize will be cn=admin,dc=spring6recipes,dc=com
+    restart: always
+    volumes:
+      - ./ldif-schemas:/opt/bitnami/openldap/custom_ldif
+#      - ./init-scripts/01-enable-dynlist.sh:/opt/bitnami/openldap/01-enable-dynlist.sh
+      - ./init-scripts:/docker-entrypoint-initdb.d
 volumes:
   keycloak:
     external: true

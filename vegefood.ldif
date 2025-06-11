@@ -1,0 +1,105 @@
+# Root domain
+dn: dc=spring6recipes,dc=com
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+dc: spring6recipes
+o: Spring6 Recipes Organization
+description: Spring Boot 6 application directory
+
+# Organizational units
+dn: ou=people,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+description: User accounts
+
+dn: ou=groups,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+description: Access control groups
+
+dn: ou=roles,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: roles
+description: Application roles
+
+# Users with proper attributes
+dn: uid=admin,ou=people,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: admin
+cn: System Administrator
+sn: Administrator
+givenName: System
+mail: admin@spring6recipes.com
+userPassword: encrypted_password_here
+employeeType: administrator
+departmentNumber: IT
+description: System administrator account
+
+dn: uid=jdoe,ou=people,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: jdoe
+cn: John Doe
+sn: Doe
+givenName: John
+mail: john.doe@spring6recipes.com
+userPassword: encrypted_password_here
+employeeType: developer
+departmentNumber: Engineering
+manager: uid=admin,ou=people,dc=spring6recipes,dc=com
+description: Software developer
+
+# Dynamic groups using memberURL
+dn: cn=administrators,ou=groups,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: groupOfURLs
+cn: administrators
+description: System administrators
+memberURL: ldap:///ou=people,dc=spring6recipes,dc=com??sub?(employeeType=administrator)
+
+dn: cn=developers,ou=groups,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: groupOfURLs
+cn: developers
+description: Software developers
+memberURL: ldap:///ou=people,dc=spring6recipes,dc=com??sub?(employeeType=developer)
+
+dn: cn=all-users,ou=groups,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: groupOfURLs
+cn: all-users
+description: All authenticated users
+memberURL: ldap:///ou=people,dc=spring6recipes,dc=com??sub?(objectClass=inetOrgPerson)
+
+# Application roles
+dn: cn=ROLE_ADMIN,ou=roles,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: organizationalRole
+cn: ROLE_ADMIN
+description: Administrative privileges
+roleOccupant: cn=administrators,ou=groups,dc=spring6recipes,dc=com
+
+dn: cn=ROLE_USER,ou=roles,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: organizationalRole
+cn: ROLE_USER
+description: Standard user privileges
+roleOccupant: cn=all-users,ou=groups,dc=spring6recipes,dc=com
+
+dn: cn=ROLE_DEVELOPER,ou=roles,dc=spring6recipes,dc=com
+objectClass: top
+objectClass: organizationalRole
+cn: ROLE_DEVELOPER
+description: Developer-specific privileges
+roleOccupant: cn=developers,ou=groups,dc=spring6recipes,dc=com
+
+
