@@ -2,7 +2,7 @@
 set -e
 
 echo "Executing Bitnami OpenLDAP original entrypoint..."
-/opt/bitnami/scripts/openldap/entrypoint.sh &
+#/opt/bitnami/scripts/openldap/entrypoint.sh &
 /opt/bitnami/scripts/openldap/run.sh & # Run in background
 
 # Wait for LDAP to be ready
@@ -12,7 +12,7 @@ until ldapwhoami -H ldap://localhost:1389 -D "cn=admin,dc=spring6recipes,dc=com"
 done
 echo "OpenLDAP is ready!"
 
-sleep 5
+sleep 2
 
 # Enable dynlist module
 ldapadd -Y EXTERNAL -H ldapi:/// << EOF

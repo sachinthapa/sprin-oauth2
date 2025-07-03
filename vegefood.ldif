@@ -83,17 +83,17 @@ memberURL: ldap:///ou=people,dc=spring6recipes,dc=com??sub?(objectClass=inetOrgP
 # Application roles
 dn: cn=ROLE_ADMIN,ou=roles,dc=spring6recipes,dc=com
 objectClass: top
-objectClass: organizationalRole
+objectClass: groupOfNames
 cn: ROLE_ADMIN
 description: Administrative privileges
-roleOccupant: cn=administrators,ou=groups,dc=spring6recipes,dc=com
+member: cn=administrators,ou=groups,dc=spring6recipes,dc=com
 
 dn: cn=ROLE_USER,ou=roles,dc=spring6recipes,dc=com
 objectClass: top
-objectClass: organizationalRole
+objectClass: groupOfNames
 cn: ROLE_USER
 description: Standard user privileges
-roleOccupant: cn=all-users,ou=groups,dc=spring6recipes,dc=com
+member: cn=all-users,ou=groups,dc=spring6recipes,dc=com
 
 dn: cn=ROLE_DEVELOPER,ou=roles,dc=spring6recipes,dc=com
 objectClass: top

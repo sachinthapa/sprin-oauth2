@@ -22,8 +22,8 @@ spring:
         resourceserver:
           jwt:
             #automatically appends /.well-known/openid-configuration to the issuer-uri
-            issuer-uri: http://localhost:8080/realms/sachin
-            jwk-set-uri: http://localhost:8080/realms/sachin/protocol/openid-connect/certs
+            issuer-uri: http://vegefoods:8090/auth/realms/sachin
+            jwk-set-uri: http://vegefoods:8090/auth/realms/sachin/protocol/openid-connect/certs
         client:
           registration:
             keycloak:
@@ -34,8 +34,8 @@ spring:
                 - openid
           provider:
             keycloak:
-              issuer-uri: http://localhost:8080/realms/sachin
-              token-uri: http://localhost:8080/realms/sachin/protocol/openid-connect/token
+              issuer-uri: http://vegefoods:8090/auth/realms/sachin
+              token-uri: http://vegefoods:8090/auth/realms/sachin/protocol/openid-connect/token
               user-name-attribute: preferred_username
 
 logging:

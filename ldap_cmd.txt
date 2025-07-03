@@ -1,0 +1,31 @@
+The DN and password in -D and -w specify who you're binding as.
+
+./ldapsearch \
+-h localhost \
+-p 1389 \
+-D "cn=Directory Manager" \
+-w secret \
+-b "ou=people,dc=spring6recipes,dc=com" \
+"(uid=admin)" \
+memberOf
+
+-h localhost — Host where OpenDJ is running.
+-p 1389 — Port (default for LDAP, unless you’ve changed it).
+-D "cn=Directory Manager" — Bind DN (superuser in OpenDJ by default).
+-w password — Password for the bind DN.
+-b "ou=people,dc=spring6recipes,dc=com" — Search base.
+"(uid=admin)" — Search filter to find the specific user.
+memberOf — Only return the memberOf attribute.
+
+ldapsearch \
+-h localhost \
+-p 1389 \
+-D "uid=admin,ou=people,dc=spring6recipes,dc=com" \
+-w pass \
+-b "uid=admin,ou=people,dc=spring6recipes,dc=com" \
+"(objectClass=*)" \
+dn
+
+"(objectclass=*)": A common filter that matches all entries. It's often used as a placeholder filter when requesting
+operational attributes at the root DSE.
+

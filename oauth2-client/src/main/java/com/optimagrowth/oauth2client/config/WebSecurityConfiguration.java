@@ -251,7 +251,8 @@ public class WebSecurityConfiguration {
 	private LogoutSuccessHandler oidcLogoutSuccessHandler(ClientRegistrationRepository clientRegistrationRepository) {
 		OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler = new OidcClientInitiatedLogoutSuccessHandler(
 				clientRegistrationRepository);
-		oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}/login-user");
+		// oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}/login-user");
+		oidcLogoutSuccessHandler.setPostLogoutRedirectUri("http://vegefoods:8090/");
 		return (request, response, authentication) -> {
 			if (authentication != null && authentication.getPrincipal() instanceof OidcUser oidcUser) {
 				String username = oidcUser.getEmail(); // or getName() / getSubject()
@@ -300,6 +301,8 @@ public class WebSecurityConfiguration {
 		accessTokenResponseClient.setRequestEntityConverter(authorizationCodeGrantRequestEntityConverter);
 		return accessTokenResponseClient;
 	}
+
+	private static final String AUTHORITY_PREFIX = "";
 
 	/**
 	 * Gets the OAuth2UserService that processes the tokens to add the granted
@@ -355,9 +358,9 @@ public class WebSecurityConfiguration {
 				// System.out.println("client.getRefreshToken() = " +
 				// client.getRefreshToken().getTokenValue());
 				System.out.println("oidcUserService addAuthorities(jwt)");
-				addAuthorities(authorities, jwt, "realm_access", "ROLE_");
+				addAuthorities(authorities, jwt, "realm_access", AUTHORITY_PREFIX);
 				System.out.println("oidcUserService addAuthorities(idToken)");
-				addAuthorities(authorities, idToken, "realm_access", "ROLE_");
+				addAuthorities(authorities, idToken, "realm_access", AUTHORITY_PREFIX);
 
 				authorities.addAll(oidcUser.getAuthorities());
 				System.out.println("oidcUserService.oidcUser " + oidcUser.getIdToken() + "|" + oidcUser.getUserInfo());
@@ -383,7 +386,6 @@ public class WebSecurityConfiguration {
 		if (realmAccess != null) {
 			if (realmAccess.get("roles") instanceof Collection<?> roles) {
 				roles.stream().map(value -> {
-					System.out.println("addAuthorities " + authorityPrefix + value.toString());
 					return authorityPrefix + value.toString();
 				}).map(SimpleGrantedAuthority::new).forEach(authorities::add);
 			}

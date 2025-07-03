@@ -151,6 +151,7 @@ export default function Navbar() {
                     Profile
                   </Link>
                   <a
+                    href="/client/logout"
                     style={{ cursor: "pointer" }}
                     className="dropdown-item"
                   >

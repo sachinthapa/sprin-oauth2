@@ -1,4 +1,5 @@
 gatewayserver/
+kafka-configs/certs/
 
 # Compiled class file
 *.class
