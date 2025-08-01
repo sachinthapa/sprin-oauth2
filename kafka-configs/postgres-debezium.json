@@ -1,0 +1,57 @@
+{
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "database.hostname": "localhost",
+    "database.port": "5432",
+    "database.user": "sachin",
+    "database.password": "",
+    "database.dbname": "inventory",
+    "database.server.name": "dbserver1",
+
+    "heartbeat.interval.ms": "10000",
+    "heartbeat.topics.prefix": "dbserver1-heartbeat",
+
+    "topic.prefix": "dbserver1",
+    "table.include.list": "public.kafka_books",
+    "tasks.max": "1",
+    "snapshot.mode": "always",
+    "slot.name": "debezium_slot",
+    "publication.name": "debezium_publication",
+
+    "value.converter.schemas.enable": "false",
+    "value.converter.schema.registry.url": "http://localhost:8081",
+    "value.converter.schema.registry.auto.register":"true",
+    "value.converter.schema.registry.find-latest":"true",
+
+    "transforms": "unwrap, epoceConverter",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "true",
+    "transforms.unwrap.delete.handling.mode": "drop",
+    "transforms.epoceConverter.type": "com.sachin.epochedateformatter.IntToDateFormat$Value",
+    "transforms.epoceConverter.target.field": "published",
+
+
+    "schema.history.internal.kafka.bootstrap.servers": "localhost:9092",
+    "schema.history.internal.kafka.topic": "dbhistory.inventory",
+    "include.schema.changes": "true",
+
+    "topic.creation.default.replication.factor": 1,  
+    "topic.creation.default.partitions": 1,  
+    "topic.creation.default.cleanup.policy": "compact",  
+    "topic.creation.default.compression.type": "lz4",
+
+    "signal.kafka.bootstrap.servers": "localhost:9094",
+    "signal.data.collection": "public.debezium_signal",
+    "signal.enabled.channels": "kafka",
+    "signal.kafka.topic": "__debezium-signaling",
+    "signal.consumer.ssl.key.password": "sachin",
+    "signal.consumer.ssl.keystore.location": "/home/sachin/CodeProjects/Java/Spring/Outh2SpringLogin/kafka-configs/certs/client.keystore.jks",
+    "signal.consumer.ssl.keystore.password": "sachin",
+    "signal.consumer.ssl.truststore.location": "/home/sachin/CodeProjects/Java/Spring/Outh2SpringLogin/kafka-configs/certs/client.truststore.jks",
+    "signal.consumer.ssl.truststore.password": "sachin",
+    "signal.consumer.security.protocol": "SASL_SSL",
+    "signal.consumer.sasl.mechanism": "SCRAM-SHA-512",
+    "signal.consumer.sasl.jaas.config": "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"alice\" password=\"alice-secret\";",
+
+    "plugin.name": "pgoutput"
+}
+
