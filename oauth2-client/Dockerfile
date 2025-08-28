@@ -1,31 +1,27 @@
-#stage 1
-#Start with a base image containing Java runtime
-FROM openjdk:11-slim as build
 
-# Add Maintainer Info
-LABEL maintainer="Illary Huaylupo <illaryhs@gmail.com>"
+# Stage 1: Build thin JAR and copy dependencies
+FROM eclipse-temurin:17-jdk-jammy AS builder
+LABEL maintainer="Sachin Thapa <sachin@gmail.com>"
+WORKDIR /app
 
-# The application's jar file
-ARG JAR_FILE
+COPY target/*.jar .
 
-# Add the application's jar to the container
-COPY ${JAR_FILE} app.jar
+RUN java -Djarmode=tools -jar *.jar extract --layers --launcher
 
-#unpackage jar file
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf /app.jar)
+# Stage 2: Final runtime image
+FROM eclipse-temurin:17-jre-alpine-3.22
+WORKDIR /app
 
-#stage 2
-#Same Java runtime
-FROM openjdk:11-slim
+ARG ARTIFACT_ID=oauth2-client
+ARG VERSION=0.0.1-SNAPSHOT
 
-#Add volume pointing to /tmp
-VOLUME /tmp
+COPY --from=builder */*/spring-boot-loader/ ./
+COPY --from=builder app/*/dependencies/ ./
+COPY --from=builder app/*/snapshot-dependencies/ ./
+# Prone to error SNAPSHOT mismatch
+COPY --from=builder app/${ARTIFACT_ID}-${VERSION}/application/ ./
 
-#Copy unpackaged application to new container
-ARG DEPENDENCY=/target/dependency
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-
-#execute the application
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.optimagrowth.license.LicenseServiceApplication"]
+# execute the application
+# docker run --rm -p 8081:8081 --network myNetwork --name oauth2-client oauth2-client
+EXPOSE 8081
+ENTRYPOINT ["java","org.springframework.boot.loader.launch.JarLauncher"]

@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: eureka-server
+#  boot:
+#    admin:
+#      context-path: /admin
+server:
+  port: 8070
+
+eureka:
+  instance:
+    hostname: eureka-server
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    healthcheck:
+      enabled: true
+  server:
+    waitTimeInMsWhenSyncEmpty: 5
+
+management:
+  endpoints:
+    env:
+      show-values: ALWAYS
+    web:
+      base-path: /custom/actuator
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.netflix.eureka: OFF
+    com.netflix.discovery: OFF

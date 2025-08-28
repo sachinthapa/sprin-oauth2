@@ -1,31 +1,31 @@
-#stage 1
-#Start with a base image containing Java runtime
-FROM openjdk:11-slim as build
 
-# Add Maintainer Info
-LABEL maintainer="Illary Huaylupo <illaryhs@gmail.com>"
+# Stage 1: Build thin JAR and copy dependencies
+FROM eclipse-temurin:17-jdk-jammy AS builder
+LABEL maintainer="Sachin Thapa <sachin@gmail.com>"
+WORKDIR /app
 
-# The application's jar file
-ARG JAR_FILE
+COPY target/*.jar .
 
-# Add the application's jar to the container
-COPY ${JAR_FILE} app.jar
+RUN java -Djarmode=tools -jar *.jar extract --layers --launcher
+# RUN java -Djarmode=layertools -jar *.jar extract DEPREC
 
-#unpackage jar file
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf /app.jar)
+# Stage 2: Final runtime image
+FROM eclipse-temurin:17-jre-alpine-3.22
+WORKDIR /app
 
-#stage 2
-#Same Java runtime
-FROM openjdk:11-slim
+COPY --from=builder */*/spring-boot-loader/ ./
+COPY --from=builder app/*/dependencies/ ./
+COPY --from=builder app/*/snapshot-dependencies/ ./
+# Prone to error SNAPSHOT mismatch
+COPY --from=builder app/eurekaserver-0.0.1-SNAPSHOT/application/ ./
 
-#Add volume pointing to /tmp
-VOLUME /tmp
+# RUN if [ -d "org/springframework/boot" ]; then \
+#     echo "Directory  exists."; \
+# else \
+#     echo "Directory does NOT exist."; \
+#     fi
 
-#Copy unpackaged application to new container
-ARG DEPENDENCY=/target/dependency
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-
-#execute the application
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.optimagrowth.eureka.EurekaServerApplication"]
+# execute the application
+# #docker run --rm -p 8070:8070 --network myNetwork --name eureka-server eureka-server
+EXPOSE 8070
+ENTRYPOINT ["java","org.springframework.boot.loader.launch.JarLauncher"]

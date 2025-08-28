@@ -1,14 +1,64 @@
 services:
+  config-server:
+    build: configserver/
+    image: sachin/configserver
+    ports:
+      - "8071:8071"
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    networks:
+      - myNetwork
+    healthcheck:
+      #      test: [ "CMD-SHELL", "wget -qO- http://localhost:8071/eureka-server/default || exit 1" ]
+      #      test: [ "CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:8071/actuator/health || exit 1" ]
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://config-server:8071/actuator/health" ]
+      interval: 60s
+      timeout: 2s
+      retries: 5
+      start_period: 10s
+    container_name: config-server
+  eureka-server:
+    build:
+      context: eurekaserver
+      dockerfile: Dockerfile
+    image: sachin/eurekaserver
+    ports:
+      - "8070:8070"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - myNetwork
+    container_name: eureka-server
+  oauth2-client:
+    build: oauth2-client/
+    image: sachin/oauth2client
+    ports:
+      - "8081:8081"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      keycloak:
+        condition: service_healthy
+    networks:
+      - myNetwork
+    container_name: oauth2-client
   keycloak:
-    container_name: sachin-keycloak.openid-provider
+    container_name: oidc-keycloak
     image: quay.io/keycloak/keycloak:26.0
     command:
-    - start-dev
-#    - --import-realm
+      - start-dev
+    #    - --import-realm
     ports:
-    - "8080:8080"
+      - "8080:8080"
+      - "9000:9000"
     volumes:
-    - keycloak:/opt/keycloak/data/
+      - keycloak:/opt/keycloak/data/
+      - ./keycloak-health/Health.java:/tmp/Health.java
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -16,39 +66,42 @@ services:
       KC_PROXY_HEADERS: forwarded
       KC_HOSTNAME_STRICT: false
       KC_HOSTNAME_STRICT_HTTPS: false
-#      KC_HTTP_PORT: 8080
-#      KC_HTTP_HOST: 0.0.0.0
-#      KC_HOSTNAME: http://localhost:8080
-#      KC_HOSTNAME_ADMIN: http://localhost:8080
-#      KC_HOSTNAME_STRICT: true
+      #      KC_HTTP_PORT: 8080
+      #      KC_HTTP_HOST: 0.0.0.0
+      #      KC_HOSTNAME: http://localhost:8080
+      #      KC_HOSTNAME_ADMIN: http://localhost:8080
+      #      KC_HOSTNAME_STRICT: true
       KC_HTTP_RELATIVE_PATH: /auth
       PROXY_ADDRESS_FORWARDING: "true"
       KC_HTTP_ENABLED: true
       KC_HEALTH_ENABLED: true
       KC_METRICS_ENABLED: true
       KC_LOG_LEVEL: WARN
+    networks:
+      - myNetwork
     extra_hosts:
-    - "host.docker.internal:192.168.1.66"
+      - "host.docker.internal:192.168.1.67"
     healthcheck:
-      test: ['CMD-SHELL', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:8080/auth/health/live']
+      test: [ 'CMD-SHELL', 'java /tmp/Health.java http://localhost:9000/auth/health/live || exit 1' ]
+#      test: [ 'CMD-SHELL', 'bash -c exec 3<>/dev/tcp/127.0.0.1/9000 || { echo "Error: Failed to connect to 127.0.0.1 on port 8080. The service may not be running." >&2; exit 1; }' ]
       interval: 5s
       timeout: 5s
       retries: 20
-#  opendj:
-#    image: openidentityplatform/opendj:4.9.4
-#    container_name: opendj
-#    ports:
-#      - 11389:1389
-#      - 4445:4444
-#    environment:
-#      - ROOT_USER_DN=cn=Directory Manager
-#      - ROOT_PASSWORD=secret
-#      - BASE_DN=dc=spring6recipes,dc=com
-#    restart: always
+  #  opendj:
+  #    image: openidentityplatform/opendj:4.9.4
+  #    container_name: opendj
+  #    ports:
+  #      - 11389:1389
+  #      - 4445:4444
+  #    environment:
+  #      - ROOT_USER_DN=cn=Directory Manager
+  #      - ROOT_PASSWORD=secret
+  #      - BASE_DN=dc=spring6recipes,dc=com
+  #    restart: always
   openldap:
     image: bitnami/openldap:2.6.10
     container_name: openldap
-#    entrypoint: [ "/opt/bitnami/openldap/01-enable-dynlist.sh" ]
+    #    entrypoint: [ "/opt/bitnami/openldap/01-enable-dynlist.sh" ]
     ports:
       - '11389:1389'
       - '11636:1636'
@@ -62,9 +115,15 @@ services:
     restart: always
     volumes:
       - ./ldif-schemas:/opt/bitnami/openldap/custom_ldif
-#      - ./init-scripts/01-enable-dynlist.sh:/opt/bitnami/openldap/01-enable-dynlist.sh
+      #      - ./init-scripts/01-enable-dynlist.sh:/opt/bitnami/openldap/01-enable-dynlist.sh
       - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - myNetwork
+
 volumes:
   keycloak:
     external: true
     name: keycloak-spring-boot-example_keycloak
+networks:
+  myNetwork:
+    external: true

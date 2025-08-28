@@ -1,31 +1,33 @@
-#stage 1
-#Start with a base image containing Java runtime
-FROM openjdk:11-slim as build
 
-# Add Maintainer Info
-LABEL maintainer="Illary Huaylupo <illaryhs@gmail.com>"
+# Stage 1: Build thin JAR and copy dependencies
+FROM eclipse-temurin:17-jdk-jammy AS builder
+LABEL maintainer="Sachin Thapa <sachin@gmail.com>"
 
-# The application's jar file
-ARG JAR_FILE
+WORKDIR /app
 
-# Add the application's jar to the container
-COPY ${JAR_FILE} app.jar
+COPY pom.xml .
+COPY mvnw .
+COPY .mvn .mvn
 
-#unpackage jar file
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf /app.jar)
+# RUN ./mvnw dependency:go-offline -B
+# RUN ./mvnw dependency:copy-dependencies -B -DoutputDirectory=dependencies
 
-#stage 2
-#Same Java runtime
-FROM openjdk:11-slim
+RUN --mount=type=cache,target=/root/.m2 \
+    ./mvnw dependency:copy-dependencies -B -DoutputDirectory=dependencies
 
-#Add volume pointing to /tmp
-VOLUME /tmp
+COPY src src
 
-#Copy unpackaged application to new container
-ARG DEPENDENCY=/target/dependency
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
+RUN --mount=type=cache,target=/root/.m2 \
+    ./mvnw package -DskipTests -Dmaven.test.skip=true
 
-#execute the application
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.optimagrowth.configserver.ConfigurationServerApplication"]
+# Stage 1: Final runtime image
+FROM eclipse-temurin:17-jre-alpine-3.22
+WORKDIR /app
+
+COPY --from=builder /app/dependencies/ ./lib/
+COPY --from=builder /app/target/*.jar app.jar
+
+# execute the application
+#docker run --rm -p 8071:8071 --network myNetwork --name config-server config-server
+EXPOSE 8071
+ENTRYPOINT ["java","-cp","lib/*:app.jar","com.outlet.configserver.ConfigurationServerApplication"]

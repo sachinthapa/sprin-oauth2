@@ -1,0 +1,32 @@
+
+# Stage 1: Build thin JAR and copy dependencies
+FROM eclipse-temurin:17-jdk-jammy AS builder
+LABEL maintainer="Sachin Thapa <sachin@gmail.com>"
+
+WORKDIR /app
+
+COPY target/*.jar .
+
+RUN (ls *.jar | grep "eureka" | tail -n 1 | sed 's/\.jar$//') > /tmp/jar.name
+
+RUN java -Djarmode=tools -jar *.jar extract --layers --launcher && \
+    APP_NAME=$(cat /tmp/jar.name) && \
+    echo $APP_NAME && \
+    mv ${APP_NAME}/dependencies /dependencies && \
+    mv ${APP_NAME}/snapshot-dependencies /snapshot-dependencies && \
+    mv ${APP_NAME}/spring-boot-loader /spring-boot-loader && \
+    mv ${APP_NAME}/application /application
+
+# Stage 2: Final runtime image
+FROM eclipse-temurin:17-jre-alpine-3.22
+WORKDIR /app
+
+COPY --from=builder /dependencies/ ./lib/
+COPY --from=builder /snapshot-dependencies/ ./
+COPY --from=builder /spring-boot-loader/ ./
+COPY --from=builder /application/ ./
+
+# execute the application
+EXPOSE 8070
+ENTRYPOINT ["java","-cp","lib/*:app.jar","com.outlet.configserver.ConfigurationServerApplication"]
+
