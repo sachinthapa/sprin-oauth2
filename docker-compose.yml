@@ -14,7 +14,7 @@ services:
       #      test: [ "CMD-SHELL", "wget -qO- http://localhost:8071/eureka-server/default || exit 1" ]
       #      test: [ "CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:8071/actuator/health || exit 1" ]
       test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://config-server:8071/actuator/health" ]
-      interval: 60s
+      interval: 20s
       timeout: 2s
       retries: 5
       start_period: 10s
@@ -59,6 +59,7 @@ services:
     volumes:
       - keycloak:/opt/keycloak/data/
       - ./keycloak-health/Health.java:/tmp/Health.java
+      - ./keycloak-health/health.sh:/tmp/health.sh
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -82,11 +83,14 @@ services:
     extra_hosts:
       - "host.docker.internal:192.168.1.67"
     healthcheck:
-      test: [ 'CMD-SHELL', 'java /tmp/Health.java http://localhost:9000/auth/health/live || exit 1' ]
-#      test: [ 'CMD-SHELL', 'bash -c exec 3<>/dev/tcp/127.0.0.1/9000 || { echo "Error: Failed to connect to 127.0.0.1 on port 8080. The service may not be running." >&2; exit 1; }' ]
-      interval: 5s
-      timeout: 5s
-      retries: 20
+#      test: [ 'CMD-SHELL', 'java /tmp/Health.java http://localhost:9000/auth/health/live || exit 1' ]
+      # explicitly running the sh program instead of kernel executing the file directly,
+      # telling sh to read that file as input. needs file only to be readable, not executable
+      test: [ 'CMD-SHELL', 'sh /tmp/health.sh' ]
+      interval: 20s
+      timeout: 2s
+      retries: 5
+      start_period: 10s
   #  opendj:
   #    image: openidentityplatform/opendj:4.9.4
   #    container_name: opendj

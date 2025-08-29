@@ -22,6 +22,7 @@ import org.springframework.security.config.annotation.web.configurers.DefaultLog
 import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.NimbusJwtClientAuthenticationParametersConverter;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
@@ -147,7 +148,16 @@ public class WebSecurityConfiguration {
 				.successHandler(crossDomainAuthenticationSuccessHandler))
 			// .addFilterAfter(refreshTokenValidationFilter,
 			// OAuth2LoginAuthenticationFilter.class)
-			.oidcLogout(oidcLogout -> oidcLogout.backChannel((Customizer.withDefaults())))
+			.oidcLogout(logout -> logout.backChannel(backChannelLogoutConfigurer -> {
+				backChannelLogoutConfigurer.logoutHandler((request, response, authentication) -> {
+					System.out.print("--------------------------> Backchannel logout received for user:");
+					// Access the logout token
+					// OidcLogoutToken logoutToken = authentication.getLogoutToken();
+					// Call default behavior
+					SecurityContextHolder.clearContext();
+					request.getSession(false).invalidate();
+				});
+			}))
 			.logout(logout -> {
 				logout.logoutSuccessHandler(oidcLogoutSuccessHandler(clientRegistrationRepository));
 				// logout.invalidateHttpSession(true);
@@ -244,7 +254,8 @@ public class WebSecurityConfiguration {
 	}
 
 	/**
-	 * Gets the oidc logout success handler that calls the OpenID end_session_endpoint.
+	 * Gets the oidc frontend logout success handler that calls the OpenID
+	 * end_session_endpoint.
 	 * @param clientRegistrationRepository clientRegistrationRepository
 	 * @return
 	 */
@@ -257,8 +268,8 @@ public class WebSecurityConfiguration {
 			if (authentication != null && authentication.getPrincipal() instanceof OidcUser oidcUser) {
 				String username = oidcUser.getEmail(); // or getName() / getSubject()
 				String sessionId = request.getSession(false) != null ? request.getSession(false).getId() : "unknown";
-				System.out
-					.println("Logout: cleaning up session for user " + username + " [sessionId=" + sessionId + "]");
+				System.out.println(
+						"Logout: cleaning up session for user ------> " + username + " [sessionId=" + sessionId + "]");
 			}
 			oidcLogoutSuccessHandler.onLogoutSuccess(request, response, authentication);
 		};
