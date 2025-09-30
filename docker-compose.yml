@@ -81,7 +81,7 @@ services:
     networks:
       - myNetwork
     extra_hosts:
-      - "host.docker.internal:192.168.1.67"
+      - "host.docker.internal:192.168.0.187"
     healthcheck:
 #      test: [ 'CMD-SHELL', 'java /tmp/Health.java http://localhost:9000/auth/health/live || exit 1' ]
       # explicitly running the sh program instead of kernel executing the file directly,

@@ -28,7 +28,7 @@ spring:
               scope: openid
           provider:
             keycloak:
-              issuer-uri: http://192.168.1.67:8090/auth/realms/sachin
+              issuer-uri: http://192.168.0.187:8090/auth/realms/sachin
 #              use the preferred_username as the principal's name in your Spring Security context,
 #              object represents the currently authenticated user
               user-name-attribute: preferred_username
