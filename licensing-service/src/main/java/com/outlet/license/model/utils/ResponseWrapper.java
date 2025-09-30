@@ -1,4 +1,4 @@
-package com.optimagrowth.license.model.utils;
+package com.outlet.license.model.utils;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 

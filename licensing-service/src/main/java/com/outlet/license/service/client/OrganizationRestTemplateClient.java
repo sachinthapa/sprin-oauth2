@@ -1,6 +1,6 @@
-package com.optimagrowth.license.service.client;
+package com.outlet.license.service.client;
 
-import com.optimagrowth.license.model.Organization;
+import com.outlet.license.model.Organization;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatusCode;

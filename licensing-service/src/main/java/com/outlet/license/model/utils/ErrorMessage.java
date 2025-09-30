@@ -1,4 +1,4 @@
-package com.optimagrowth.license.model.utils;
+package com.outlet.license.model.utils;
 
 /**
  * Error message class

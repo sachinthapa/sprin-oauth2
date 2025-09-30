@@ -1,4 +1,4 @@
-package com.optimagrowth.license.model;
+package com.outlet.license.model;
 
 import org.springframework.hateoas.RepresentationModel;
 

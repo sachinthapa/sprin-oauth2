@@ -1,6 +1,6 @@
-package com.optimagrowth.license;
+package com.outlet.license;
 
-import com.optimagrowth.license.utils.UserContextInterceptor;
+import com.outlet.license.utils.UserContextInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

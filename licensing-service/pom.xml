@@ -8,7 +8,7 @@
         <version>3.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.optimagrowth</groupId>
+    <groupId>com.outlet</groupId>
     <artifactId>licensing-service</artifactId>
     <version>0.0.3-SNAPSHOT</version>
     <name>License Service</name>

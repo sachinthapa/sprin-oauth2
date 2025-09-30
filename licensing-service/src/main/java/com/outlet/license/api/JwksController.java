@@ -1,4 +1,4 @@
-package com.optimagrowth.license.api;
+package com.outlet.license.api;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import org.springframework.http.MediaType;

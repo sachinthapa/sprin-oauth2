@@ -1,4 +1,4 @@
-package com.optimagrowth.license.config;
+package com.outlet.license.config;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.KeySourceException;

@@ -1,8 +1,8 @@
-package com.optimagrowth.license.controller;
+package com.outlet.license.controller;
 
-import com.optimagrowth.license.model.License;
-import com.optimagrowth.license.service.LicenseService;
-import com.optimagrowth.license.utils.UserContextHolder;
+import com.outlet.license.model.License;
+import com.outlet.license.service.LicenseService;
+import com.outlet.license.utils.UserContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

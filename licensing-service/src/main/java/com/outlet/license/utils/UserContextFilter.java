@@ -1,4 +1,4 @@
-package com.optimagrowth.license.utils;
+package com.outlet.license.utils;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

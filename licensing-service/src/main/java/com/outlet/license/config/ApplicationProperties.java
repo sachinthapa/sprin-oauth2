@@ -1,4 +1,4 @@
-package com.optimagrowth.license.config;
+package com.outlet.license.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

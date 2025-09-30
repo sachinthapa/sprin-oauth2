@@ -1,12 +1,12 @@
-package com.optimagrowth.license.service;
+package com.outlet.license.service;
 
-import com.optimagrowth.license.config.ServiceConfig;
-import com.optimagrowth.license.model.License;
-import com.optimagrowth.license.model.Organization;
-import com.optimagrowth.license.repository.LicenseRepository;
-import com.optimagrowth.license.service.client.OrganizationDiscoveryClient;
-import com.optimagrowth.license.service.client.OrganizationFeignClient;
-import com.optimagrowth.license.service.client.OrganizationRestTemplateClient;
+import com.outlet.license.config.ServiceConfig;
+import com.outlet.license.model.License;
+import com.outlet.license.model.Organization;
+import com.outlet.license.repository.LicenseRepository;
+import com.outlet.license.service.client.OrganizationDiscoveryClient;
+import com.outlet.license.service.client.OrganizationFeignClient;
+import com.outlet.license.service.client.OrganizationRestTemplateClient;
 import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.bulkhead.BulkheadRegistry;
 import io.github.resilience4j.bulkhead.ThreadPoolBulkheadRegistry;

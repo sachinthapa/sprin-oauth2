@@ -1,4 +1,4 @@
-package com.optimagrowth.license.model;
+package com.outlet.license.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;

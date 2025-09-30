@@ -1,4 +1,4 @@
-package com.optimagrowth.license.config;
+package com.outlet.license.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

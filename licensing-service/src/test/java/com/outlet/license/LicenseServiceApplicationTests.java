@@ -1,4 +1,4 @@
-package com.optimagrowth.license;
+package com.outlet.license;
 
 import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.bulkhead.ThreadPoolBulkhead;

@@ -1,6 +1,6 @@
-package com.optimagrowth.license.repository;
+package com.outlet.license.repository;
 
-import com.optimagrowth.license.model.License;
+import com.outlet.license.model.License;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

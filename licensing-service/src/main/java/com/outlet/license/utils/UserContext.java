@@ -1,4 +1,4 @@
-package com.optimagrowth.license.utils;
+package com.outlet.license.utils;
 
 import org.springframework.stereotype.Component;
 

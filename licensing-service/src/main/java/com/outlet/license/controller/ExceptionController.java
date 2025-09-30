@@ -1,11 +1,11 @@
 /**
  *
  */
-package com.optimagrowth.license.controller;
+package com.outlet.license.controller;
 
-import com.optimagrowth.license.model.utils.ErrorMessage;
-import com.optimagrowth.license.model.utils.ResponseWrapper;
-import com.optimagrowth.license.model.utils.RestErrorList;
+import com.outlet.license.model.utils.ErrorMessage;
+import com.outlet.license.model.utils.ResponseWrapper;
+import com.outlet.license.model.utils.RestErrorList;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

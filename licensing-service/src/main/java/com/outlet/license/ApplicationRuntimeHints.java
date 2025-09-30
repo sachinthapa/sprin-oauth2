@@ -1,4 +1,4 @@
-package com.optimagrowth.license;
+package com.outlet.license;
 
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
