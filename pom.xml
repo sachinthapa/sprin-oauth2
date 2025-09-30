@@ -3,21 +3,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.optimagrowth</groupId>
+    <groupId>com.outlet</groupId>
     <version>0.0.1-SNAPSHOT</version>
     <artifactId>sachin-outh2-login</artifactId>
     <packaging>pom</packaging>
 
-
     <name>sachin-outh2-login-pom</name>
     <description>Parent Pom for the sachin-outh2 project</description>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+<!--    <parent>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-parent</artifactId>-->
+<!--        <version>3.4.4</version>-->
+<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
+<!--    </parent>-->
 
     <properties>
         <docker.image.prefix>ostock</docker.image.prefix>
@@ -28,6 +27,7 @@
         <module>eurekaserver</module>
 <!--        <module>gatewayserver</module>-->
         <module>licensing-service</module>
+        <module>licensing-service-mvc</module>
         <module>organization-service</module>
         <module>oauth2-client</module>
     </modules>
